@@ -17,7 +17,10 @@
         <tr th:each="data : ${employeelist}">
             <td th:text="${data.authentication.code}"></td>
             <td th:text="${data.name}"></td>
-            <td th:text="${data.deleteFlag}"></td>
+            <td>
+                <a th:href="@{/employee/detail/{id}/(id=${data.id})}">詳細を見る</a>
+            </td>
+        </tr>
     </table>
 </body>
 </html>
