@@ -2,6 +2,8 @@ package com.techacademy.controller;
 
 import java.time.LocalDateTime;
 
+import javax.validation.groups.Default;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,10 +90,15 @@ public class EmployeeController {
 
     /** Employee更新処理 */
     @PostMapping("/update/{id}")
-    public String postEmployee(Employee employee) {
+    public String postEmployee(@PathVariable("id") Integer id, @Validated Employee employee, BindingResult res, Model model) {
+//        if(res.hasErrors()) {
+//            //エラーあり
+//            return getEmployee2(id, model);
+//        }
         // Employee更新
         employee.setUpdatedAt(LocalDateTime.now());
         employee.setDeleteFlag(0);
+
         Authentication authentication = employee.getAuthentication();
         authentication = service.saveAuthentication(authentication);
         employee.setAuthentication(authentication);
