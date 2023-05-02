@@ -1,26 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:"http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>日報管理システム</title>
     <link rel="stylesheet" th:href="@{/css/employee/list.css}">
 </head>
 <body>
-    <h1>日報管理システム</h1>
-    <h2>従業員一覧</h2>
-    <table>
+    <nav id="global_navi">
+        <div class="left">
+            <h2>日報管理システム</h2>
+            <a href="/employee/list">従業管理</a>
+            <a href="">日報管理</a>
+        </div>
+        <div class="right">
+            <span>さん</span>
+            <a>ログアウト</a>
+        </div>
+    </nav>
+    <h1>従業員一覧</h1>
+    <table class="list">
         <tr>
             <th>社員番号</th>
             <th>氏名</th>
             <th>操作</th>
         </tr>
         <tr th:each="data : ${employeelist}">
-            <td th:text="${data.authentication.code}"></td>
+<td th:text="${data.authentication != null ? data.authentication.code : 'N/A'}"></td>
             <td th:text="${data.name}"></td>
             <td>
                 <a th:href="@{/employee/detail/{id}/(id=${data.id})}">詳細を見る</a>
             </td>
         </tr>
     </table>
+    <a th:href="@{/employee/register}">新規従業員の登録</a>
 </body>
 </html>

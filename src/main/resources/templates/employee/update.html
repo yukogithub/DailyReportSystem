@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>日報管理システム</title>
+    <link rel="stylesheet" th:href="@{/css/employee/update.css}">
+</head>
+<body>
+    <h2>日報管理システム</h2>
+    <h1>id:<span th:text="${employee.id}"></span> の従業員情報 編集ページ</h1>
+    <p>(パスワードは変更する場合のみ入力してください)</p>
+
+    <form method="post" th:action="@{/employee/update/{id}/(id=${employee.id})}" th:object="${employee}">
+        <input type="hidden" id="id" name="id" th:value="*{id}">
+        <label for="code">社員番号</label>
+        <br>
+        <input type="text" th:field="*{authentication.code}" th:errorclass="err" readonly>
+        <span th:errors="*{authentication.code}" class="err"></span>
+        <br>
+        <!--    <div>社員番号<br>
+        <span th:text="${employee.authentication.code}"></span></div> -->
+
+        <label for="name">氏名</label>
+        <br>
+        <input type="text" th:field="*{name}">
+        <br>
+
+        <label for="password">パスワード</label>
+        <br>
+        <input type="password" th:field="*{authentication.password}">
+        <br>
+
+        <label for="role">権限</label>
+        <br>
+        <select th:field="*{authentication.role}">
+            <option th:each="item:${T(com.techacademy.entity.Authentication.Role).values()}" th:value="${item}" th:text="${item}" th:selected="*{authentication.role} == ${item}">
+            </option>
+        </select>
+        <br>
+        <input type="submit" value="投稿">
+    </form>
+    <a th:href="@{/employee/delete/{id}/(id=${employee.id})}">この従業員を削除する</a><br>
+    <a href = "/employee/list">一覧に戻る</a>
+</body>
+</html>
