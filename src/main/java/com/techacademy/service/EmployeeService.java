@@ -46,7 +46,6 @@ public class EmployeeService {
     @Transactional
     public Authentication saveAuthentication(Authentication authentication) {
         return authenticationRepository.save(authentication);
-
     }
 
 }
