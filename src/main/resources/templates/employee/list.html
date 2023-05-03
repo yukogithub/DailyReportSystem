@@ -14,7 +14,7 @@
         </div>
         <div class="right">
             <span>さん</span>
-            <a>ログアウト</a>
+            <a th:action="@{/logout}">ログアウト</a>
         </div>
     </nav>
     <h1>従業員一覧</h1>
@@ -33,6 +33,7 @@
             </td>
         </tr>
     </table>
+    <span>（全[[${count}]]件）</span><br>
     <a th:href="@{/employee/register}">新規従業員の登録</a>
 </body>
 </html>

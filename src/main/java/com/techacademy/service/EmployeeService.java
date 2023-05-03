@@ -2,7 +2,6 @@ package com.techacademy.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +45,11 @@ public class EmployeeService {
     @Transactional
     public Authentication saveAuthentication(Authentication authentication) {
         return authenticationRepository.save(authentication);
+    }
+
+    public int getEmployeeCount() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.size();
     }
 
 }

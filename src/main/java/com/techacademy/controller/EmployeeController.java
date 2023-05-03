@@ -125,6 +125,15 @@ public class EmployeeController {
         return "redirect:/employee/list";
     }
 
+    /** レコード件数取得 */
+    @Autowired
+    private EmployeeService employeeService;
 
+    @GetMapping("/employee/list")
+    public String getEmployeeCount(Model model) {
+        int count = employeeService.getEmployeeCount();
+        model.addAttribute("count", count);
+        return "employeeCount";
+    }
 
 }
