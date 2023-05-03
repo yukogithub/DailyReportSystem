@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>日報管理システム</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
     <h1>日報管理システム</h1>
@@ -12,14 +13,18 @@
     <table>
         <tr>
             <td><label for="code">社員番号</label></td>
+        </tr>
+        <tr>
             <td><input type="text" id="code" name="code"></td>
         </tr>
         <tr>
             <td><label for="password">パスワード</label></td>
+        </tr>
+        <tr>
             <td><input type="password" id="password" name="password"></td>
         </tr>
         <tr>
-            <td><input type="submit" name="loginRun" value="ログイン"></td>
+            <td><input type="submit" name="loginRun" value="ログイン" class="submit"></td>
         </tr>
     </table>
     </form>

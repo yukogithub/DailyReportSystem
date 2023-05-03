@@ -1,5 +1,6 @@
 package com.techacademy.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -7,16 +8,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.techacademy.entity.Employee;
 
-
 public class UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private final Employee employee;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetail(Employee employee, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetail(Employee employee) {
         this.employee = employee;
-        this.authorities = authorities;
+        this.authorities = new ArrayList<GrantedAuthority>();
     }
 
     public Employee getUser() {

@@ -47,8 +47,8 @@ public class Employee {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
-    @Valid
+    @OneToOne(mappedBy="employee", cascade = CascadeType.ALL) // Employeeエンティティに対する操作（作成、更新、削除）がAuthenticationエンティティにも適用
+    @Valid // Authentication オブジェクトに対してバリデーションを適用
     private Authentication authentication;
 
 }

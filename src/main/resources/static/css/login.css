@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+label {
+    display: block;
+    margin-bottom: -5px;
+}
+
+input {
+    display: block;
+    margin-top: 0px;
+}
+
+input.submit{
+    margin-top: 20px;
+}

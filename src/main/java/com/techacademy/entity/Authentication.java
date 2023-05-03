@@ -25,6 +25,7 @@ public class Authentication {
     }
 
     /** 主キー。社員番号。20桁。null不許可 */
+    /** ログインユーザ名 */
     @Id
     @Column(length = 20, nullable = false)
     @NotEmpty
