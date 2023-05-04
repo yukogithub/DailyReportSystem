@@ -13,6 +13,7 @@
         <br>
         <input type="text" th:field="*{authentication.code}" th:errorclass="err">
         <span th:errors="*{authentication.code}" class="err"></span>
+        <span th:if="${error}" th:text="${error}" class="err"></span>
         <br>
 
         <label for="name">氏名</label>

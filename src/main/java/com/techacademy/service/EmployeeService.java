@@ -1,7 +1,10 @@
 package com.techacademy.service;
 
 import java.util.List;
+import java.util.Optional;
 
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,9 @@ import com.techacademy.repository.EmployeeRepository;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final AuthenticationRepository authenticationRepository;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     public EmployeeService(EmployeeRepository repository, AuthenticationRepository authenticationRepository) {
         this.employeeRepository = repository;
@@ -42,14 +48,23 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+
+
     @Transactional
     public Authentication saveAuthentication(Authentication authentication) {
+//        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
         return authenticationRepository.save(authentication);
     }
 
-    public int getEmployeeCount() {
-        List<Employee> employees = employeeRepository.findAll();
-        return employees.size();
+    /** Employeeの件数を数える*/
+    public long countEmployees() {
+        return employeeRepository.count();
+    }
+
+    /** 新規登録時の重複チェック */
+    public boolean existsByCode(String code) {
+        Optional<Authentication> authentication = authenticationRepository.findByCode(code);
+        return authentication.isPresent();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.techacademy.controller;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
+import com.techacademy.repository.AuthenticationRepository;
 import com.techacademy.service.EmployeeService;
 
 @Controller
@@ -27,11 +29,16 @@ public class EmployeeController {
         this.service = service;
     }
 
+    @Autowired
+    private AuthenticationRepository authenticationRepository;
+
     /** 一覧画面を表示 */
     @GetMapping("/list")
     public String getList(Model model) {
         // 全件検索結果をModelに登録
         model.addAttribute("employeelist", service.getEmployeeList());
+        // 件数をカウントしてModelに登録
+        model.addAttribute("employeeCount", service.countEmployees());
         // employee/list.htmlに画面遷移
         return "employee/list";
     }
@@ -66,6 +73,16 @@ public class EmployeeController {
         employee.setUpdatedAt(LocalDateTime.now());
         employee.setDeleteFlag(0);
         Authentication authentication = employee.getAuthentication();
+
+        // 新規登録時のみ、同一コードが存在しないか確認
+        Optional<Authentication> existingAuth = authenticationRepository.findByCode(authentication.getCode());
+        if (existingAuth.isPresent()) {
+            // 既に同じコードが存在する場合はエラーを返す
+            model.addAttribute("error", "既に存在するコードです。");
+            return getRegister(employee);
+        }
+
+
         authentication = service.saveAuthentication(authentication); //Authenticationを保存
         employee.setAuthentication(authentication);
 //        authentication.setPassword(null); // 暗号化したパスワード
@@ -101,7 +118,7 @@ public class EmployeeController {
         authentication = service.saveAuthentication(authentication);
         employee.setAuthentication(authentication);
 //        authentication.setPassword(null); // 暗号化したパスワード
-        service.saveEmployee(employee); //Employeeを保存
+        service.saveEmployee(employee); //Employeeを保存(Codeの重複許可)
 
         // 一覧画面にリダイレクト
         return "redirect:/employee/list";
@@ -121,17 +138,6 @@ public class EmployeeController {
         service.saveEmployee(employee);
         // 一覧画面にリダイレクト
         return "redirect:/employee/list";
-    }
-
-    /** レコード件数取得 */
-    @Autowired
-    private EmployeeService employeeService;
-
-    @GetMapping("/employee/list")
-    public String getEmployeeCount(Model model) {
-        int count = employeeService.getEmployeeCount();
-        model.addAttribute("count", count);
-        return "employeeCount";
     }
 
 }
