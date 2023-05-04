@@ -3,8 +3,8 @@ package com.techacademy.service;
 import java.util.List;
 import java.util.Optional;
 
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +18,8 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final AuthenticationRepository authenticationRepository;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public EmployeeService(EmployeeRepository repository, AuthenticationRepository authenticationRepository) {
         this.employeeRepository = repository;
@@ -43,7 +43,7 @@ public class EmployeeService {
     public Employee saveEmployee(Employee employee) {
         Authentication auth = employee.getAuthentication(); // EmployeeインスタンスからAuthenticationインスタンスを取得
         auth.setEmployee(employee); // AuthenticationインスタンスにEmployeeインスタンスを設定
-//        auth.setPassword(passwordEncoder.encode(employee.getAuthentication().getPassword()));  // Authenticationインスタンスのパスワードをハッシュ化
+        auth.setPassword(passwordEncoder.encode(employee.getAuthentication().getPassword()));  // Authenticationインスタンスのパスワードをハッシュ化
 
         return employeeRepository.save(employee);
     }
@@ -52,7 +52,7 @@ public class EmployeeService {
 
     @Transactional
     public Authentication saveAuthentication(Authentication authentication) {
-//        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
+        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
         return authenticationRepository.save(authentication);
     }
 

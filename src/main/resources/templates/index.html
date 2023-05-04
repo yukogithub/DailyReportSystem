@@ -3,8 +3,23 @@
 <head>
     <meta charset="utf-8">
     <title>日報管理システム</title>
+        <link rel="stylesheet" th:href="@{/css/common.css}">
+        <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
-<body>
-<h1>日報管理システム</h1>
-</body>
+    <body>
+        <nav id="global_navi">
+            <div class="left">
+                <h2>日報管理システム</h2>
+                <a href="/employee/list">従業管理</a>
+                <a href="">日報管理</a>
+            </div>
+            <div class="right">
+                <span>さん</span>
+                <form method="post" th:action="@{/logout}" id="logout-form">
+                <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
+                </form>
+            </div>
+        </nav>
+        <h1>日報管理システムへようこそ</h1>
+    </body>
 </html>

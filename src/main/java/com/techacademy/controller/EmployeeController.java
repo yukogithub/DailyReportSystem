@@ -75,8 +75,8 @@ public class EmployeeController {
         Authentication authentication = employee.getAuthentication();
 
         // 新規登録時のみ、同一コードが存在しないか確認
-        Optional<Authentication> existingAuth = authenticationRepository.findByCode(authentication.getCode());
-        if (existingAuth.isPresent()) {
+        Optional<Authentication> existingAuthOpt = authenticationRepository.findByCode(authentication.getCode());
+        if (existingAuthOpt.isPresent()) {
             // 既に同じコードが存在する場合はエラーを返す
             model.addAttribute("error", "既に存在するコードです。");
             return getRegister(employee);
