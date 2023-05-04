@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>日報管理システム</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/employee/list.css}">
 </head>
 <body>
@@ -14,7 +15,9 @@
         </div>
         <div class="right">
             <span>さん</span>
-            <a th:action="@{/logout}">ログアウト</a>
+            <form method="post" th:action="@{/logout}" id="logout-form">
+            <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
+            </form>
         </div>
     </nav>
     <h1>従業員一覧</h1>

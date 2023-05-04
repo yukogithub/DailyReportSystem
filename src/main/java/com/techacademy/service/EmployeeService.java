@@ -52,7 +52,6 @@ public class EmployeeService {
 
     @Transactional
     public Authentication saveAuthentication(Authentication authentication) {
-        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
         return authenticationRepository.save(authentication);
     }
 
