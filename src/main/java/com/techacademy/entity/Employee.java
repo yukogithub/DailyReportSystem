@@ -1,6 +1,7 @@
 package com.techacademy.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -47,8 +49,13 @@ public class Employee {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    /** Authenticationテーブルとの関連 */
     @OneToOne(mappedBy="employee", cascade = CascadeType.ALL) // Employeeエンティティに対する操作（作成、更新、削除）がAuthenticationエンティティにも適用
     @Valid // Authentication オブジェクトに対してバリデーションを適用
     private Authentication authentication;
 
+    /** Reportテーブルとの関連 */
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @Valid
+    private List<Report> reports;
 }

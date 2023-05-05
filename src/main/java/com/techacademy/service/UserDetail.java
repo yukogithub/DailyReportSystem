@@ -66,4 +66,14 @@ public class UserDetail implements UserDetails {
         // ユーザーが有効であればtrueを返す
         return true;
     }
+
+
+    public String getName() {
+        return employee.getName();
+    }
+
+    public Integer getId() {
+        return employee.getId(); //EmployeeId
+    }
+
 }

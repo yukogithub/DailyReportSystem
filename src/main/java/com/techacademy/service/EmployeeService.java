@@ -66,4 +66,8 @@ public class EmployeeService {
         return authentication.isPresent();
     }
 
+//    public Employee findByCodeAndPassword(String code, String password) {
+//        return employeeRepository.findByCodeAndPassword(code, password);
+//    }
+
 }

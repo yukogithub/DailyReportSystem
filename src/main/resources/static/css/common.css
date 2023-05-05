@@ -17,16 +17,15 @@ th, td {
     padding: 10px 20px;
 }
 
+#global_navi a:visited, #global_navi a:hover{
+    color: white;
+}
 #global_navi{
     color: white;
     background-color: black;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-#global_navi a:visited, #global_navi a:hover{
-    color: white;
 }
 
 #global_navi .left{
