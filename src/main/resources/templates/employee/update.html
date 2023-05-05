@@ -6,7 +6,19 @@
     <link rel="stylesheet" th:href="@{/css/employee/update.css}">
 </head>
 <body>
-    <h2>日報管理システム</h2>
+    <nav id="global_navi">
+        <div class="left">
+            <h2>日報管理システム</h2>
+            <a href="/employee/list">従業員管理</a>
+            <a href="">日報管理</a>
+        </div>
+        <div class="right">
+            <div><span th:text="${employeeName}">Employee Name</span>さん</div>
+            <form method="post" th:action="@{/logout}" id="logout-form">
+            <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
+            </form>
+        </div>
+    </nav>
     <h1>id:<span th:text="${employee.id}"></span> の従業員情報 編集ページ</h1>
     <p>(パスワードは変更する場合のみ入力してください)</p>
 
@@ -14,11 +26,9 @@
         <input type="hidden" id="id" name="id" th:value="*{id}">
         <label for="code">社員番号(変更できません)</label>
         <br>
-        <input type="text" th:field="*{authentication.code}" th:errorclass="err" readonly>
+        <input type="hidden" th:field="*{authentication.code}" th:errorclass="err" readonly>
         <span th:errors="*{authentication.code}" class="err"></span>
         <br>
-        <!--    <div>社員番号<br>
-        <span th:text="${employee.authentication.code}"></span></div> -->
 
         <label for="name">氏名</label>
         <br>

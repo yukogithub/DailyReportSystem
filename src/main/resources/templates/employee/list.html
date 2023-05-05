@@ -14,7 +14,7 @@
             <a href="">日報管理</a>
         </div>
         <div class="right">
-            <span>さん</span>
+            <div><span th:text="${employeeName}">Employee Name</span>さん</div>
             <form method="post" th:action="@{/logout}" id="logout-form">
             <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
             </form>

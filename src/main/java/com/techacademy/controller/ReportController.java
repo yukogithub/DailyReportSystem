@@ -2,8 +2,6 @@ package com.techacademy.controller;
 
 import java.time.LocalDateTime;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -65,7 +63,7 @@ public class ReportController {
     public String getRegister(@AuthenticationPrincipal UserDetail userDetail, @ModelAttribute Report report, Model model) {
         Employee employee = userDetail.getUser();
         model.addAttribute("employeeName", employee.getName());
-//        model.addAttribute("employeeId", employee.getId());
+        model.addAttribute("employeeId", employee.getId());
 
         // report登録画面に遷移
         return "report/report_register";
@@ -79,7 +77,9 @@ public class ReportController {
             return getRegister(userDetail, report, model);
         }
         // Report登録
-//        report.setEmployeeId(employee.getId());
+        Employee employee = userDetail.getUser();
+
+        report.setEmployee(employee);
         report.setCreatedAt(LocalDateTime.now());
         report.setUpdatedAt(LocalDateTime.now());
 
@@ -91,9 +91,12 @@ public class ReportController {
 
     /** Report更新画面を表示 */
     @GetMapping("/report_update/{id}")
-    public String getReport2(@PathVariable("id") Integer id, Model model) {
+    public String getReport2(@AuthenticationPrincipal UserDetail userDetail, @ModelAttribute Report report, Model model, @PathVariable("id") Integer id) {
         // Modelに登録
+        Employee employee = userDetail.getUser();
         model.addAttribute("report", service.getReport(id));
+        model.addAttribute("employeeName", employee.getName());
+        model.addAttribute("employeeId", employee.getId());
         // report更新画面に遷移
         return "report/report_update";
     }
@@ -101,12 +104,15 @@ public class ReportController {
 
     /** Report更新処理 */
     @PostMapping("/report_update/{id}")
-    public String postReport(@PathVariable("id") Integer id, @Validated Report report, BindingResult res, Model model) {
+    public String postReport(@AuthenticationPrincipal UserDetail userDetail, @Validated Report report, BindingResult res, Model model, @PathVariable("id") Integer id) {
         if(res.hasErrors()) {
             //エラーあり
-            return getReport2(id, model);
+            return getReport(id, model);
         }
         // Report更新
+        Employee employee = userDetail.getUser();
+
+        report.setEmployee(employee);
         report.setUpdatedAt(LocalDateTime.now());
 
         service.saveReport(report); //Reportを保存

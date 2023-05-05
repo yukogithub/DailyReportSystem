@@ -4,17 +4,21 @@ a {
   text-decoration: none;
 }
 
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: solid 1px black;
+    padding: 10px 20px;
+}
+
 .list {
     border-collapse: collapse;
 }
 
 .list tr:nth-child(even){
     background-color:#f2f2f2;
-}
-
-th, td {
-    border: solid 1px black;
-    padding: 10px 20px;
 }
 
 #global_navi a:visited, #global_navi a:hover{
@@ -55,4 +59,8 @@ th, td {
 
 a.logout-link {
   color: white;
+}
+
+pre {
+    font-family: "Hiragino Kaku Gothic Pro",Meiryo,"MS PGothic",Helvetica,Arial,sans-serif;
 }

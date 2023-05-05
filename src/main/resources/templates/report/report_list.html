@@ -10,7 +10,7 @@
     <nav id="global_navi">
         <div class="left">
             <h2>日報管理システム</h2>
-            <a href="/report/list">従業管理</a>
+            <a href="/employee/list">従業員管理</a>
             <a href="">日報管理</a>
         </div>
         <div class="right">
@@ -29,11 +29,11 @@
             <th>操作</th>
         </tr>
         <tr th:each="data : ${reportlist}">
-            <td th:text="${data.name}"></td>
+            <td th:text="${data.employee.name}"></td>
             <td th:text="${data.reportDate}"></td>
             <td th:text="${data.title}"></td>
             <td>
-                <a th:href="@{/report/detail/{id}/(id=${data.id})}">詳細を見る</a>
+                <a th:href="@{/report/report_detail/{id}/(id=${data.id})}">詳細を見る</a>
             </td>
         </tr>
     </table>

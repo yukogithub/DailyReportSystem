@@ -72,7 +72,7 @@ public class UserDetail implements UserDetails {
         return employee.getName();
     }
 
-    public Integer getId() {
+    public Integer getEmployeeId() {
         return employee.getId(); //EmployeeId
     }
 
