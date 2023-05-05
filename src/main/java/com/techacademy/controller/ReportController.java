@@ -1,5 +1,6 @@
 package com.techacademy.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +52,13 @@ public class ReportController {
 
     /** 詳細画面を表示 */
     @GetMapping("/report_detail/{id}/")
-    public String getReport(@PathVariable("id") Integer id, Model model) {
+    public String getReport(@AuthenticationPrincipal UserDetail userDetail, @PathVariable("id") Integer id, Model model) {
         // Modelに登録
         model.addAttribute("report", service.getReport(id));
+        // ログインユーザー名をModelに登録
+        Employee employee = userDetail.getUser();
+        model.addAttribute("employeeName", employee.getName());
+        model.addAttribute("employeeId", employee.getId());
         // report詳細画面に遷移
         return "report/report_detail";
     }
@@ -62,6 +67,8 @@ public class ReportController {
     @GetMapping("/report_register")
     public String getRegister(@AuthenticationPrincipal UserDetail userDetail, @ModelAttribute Report report, Model model) {
         Employee employee = userDetail.getUser();
+        report.setReportDate(LocalDate.now());
+        model.addAttribute("report", report);
         model.addAttribute("employeeName", employee.getName());
         model.addAttribute("employeeId", employee.getId());
 
@@ -107,7 +114,7 @@ public class ReportController {
     public String postReport(@AuthenticationPrincipal UserDetail userDetail, @Validated Report report, BindingResult res, Model model, @PathVariable("id") Integer id) {
         if(res.hasErrors()) {
             //エラーあり
-            return getReport(id, model);
+            return getReport(userDetail, id, model);
         }
         // Report更新
         Employee employee = userDetail.getUser();
