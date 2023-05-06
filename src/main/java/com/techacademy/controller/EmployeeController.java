@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,7 @@ import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
 import com.techacademy.repository.AuthenticationRepository;
 import com.techacademy.service.EmployeeService;
+import com.techacademy.service.UserDetail;
 
 @Controller
 @RequestMapping("employee")
@@ -32,13 +35,19 @@ public class EmployeeController {
     @Autowired
     private AuthenticationRepository authenticationRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /** 一覧画面を表示 */
     @GetMapping("/list")
-    public String getList(Model model) {
+    public String getList(@AuthenticationPrincipal UserDetail userDetail, Model model) {
         // 全件検索結果をModelに登録
         model.addAttribute("employeelist", service.getEmployeeList());
         // 件数をカウントしてModelに登録
         model.addAttribute("employeeCount", service.countEmployees());
+        // ログインユーザー名をModelに登録
+        Employee employee = userDetail.getUser();
+        model.addAttribute("employeeName", employee.getName());
         // employee/list.htmlに画面遷移
         return "employee/list";
     }
@@ -46,16 +55,19 @@ public class EmployeeController {
 
     /** 詳細画面を表示 */
     @GetMapping("/detail/{id}/")
-    public String getEmployee(@PathVariable("id") Integer id, Model model) {
+    public String getEmployee(@AuthenticationPrincipal UserDetail userDetail, @PathVariable("id") Integer id, Model model) {
         // Modelに登録
         model.addAttribute("employee", service.getEmployee(id));
+        // ログインユーザー名をModelに登録
+        Employee employee = userDetail.getUser();
+        model.addAttribute("employeeName", employee.getName());
         // employee詳細画面に遷移
         return "employee/detail";
     }
 
     /** Employee登録画面を表示 */
     @GetMapping("/register")
-    public String getRegister(@ModelAttribute Employee employee) {
+    public String getRegister(@AuthenticationPrincipal UserDetail userDetail, @ModelAttribute Employee employee) {
         // employee登録画面に遷移
         return "employee/register";
     }
@@ -63,10 +75,10 @@ public class EmployeeController {
 
     /** Employee登録処理 */
     @PostMapping("/register")
-    public String postRegister(@Validated Employee employee, BindingResult res, Model model) {
+    public String postRegister(@AuthenticationPrincipal UserDetail userDetail, @Validated Employee employee, BindingResult res, Model model) {
         if(res.hasErrors()) {
             //エラーあり
-            return getRegister(employee);
+            return getRegister(userDetail, employee);
         }
         // Employee登録
         employee.setCreatedAt(LocalDateTime.now());
@@ -79,7 +91,7 @@ public class EmployeeController {
         if (existingAuthOpt.isPresent()) {
             // 既に同じコードが存在する場合はエラーを返す
             model.addAttribute("error", "既に存在するコードです。");
-            return getRegister(employee);
+            return getRegister(userDetail, employee);
         }
 
 
@@ -95,7 +107,10 @@ public class EmployeeController {
 
     /** Employee更新画面を表示 */
     @GetMapping("/update/{id}")
-    public String getEmployee2(@PathVariable("id") Integer id, Model model) {
+    public String getEmployee2(@AuthenticationPrincipal UserDetail userDetail, @PathVariable("id") Integer id, Model model) {
+        // ログインユーザー名をModelに登録
+        Employee employee = userDetail.getUser();
+        model.addAttribute("employeeName", employee.getName());
         // Modelに登録
         model.addAttribute("employee", service.getEmployee(id));
         // employee更新画面に遷移
@@ -114,7 +129,15 @@ public class EmployeeController {
         employee.setUpdatedAt(LocalDateTime.now());
         employee.setDeleteFlag(0);
 
+//        Employee dbemployee = service.getEmployee(id);
+//        Authentication dbauthentication = dbemployee.getAuthentication();
+
         Authentication authentication = employee.getAuthentication();
+
+//        if(authentication.getPassword().equals("")) {
+//            authentication.setPassword(dbauthentication.getPassword());
+//        }
+
         authentication = service.saveAuthentication(authentication);
         employee.setAuthentication(authentication);
 //        authentication.setPassword(null); // 暗号化したパスワード

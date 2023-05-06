@@ -10,8 +10,8 @@
     <nav id="global_navi">
         <div class="left">
             <h2>日報管理システム</h2>
-            <a href="/employee/list">従業員管理</a>
-            <a href="">日報管理</a>
+            <a th:href="@{/employee/list}">従業員管理</a>
+            <a th:href="@{/}">日報管理</a>
         </div>
         <div class="right">
             <div><span th:text="${employeeName}">Employee Name</span>さん</div>
@@ -29,7 +29,6 @@
         </tr>
         <tr th:each="data : ${employeelist}">
             <td th:text="${data.authentication.code}"></td>
-            <!-- <td th:text="${data.authentication != null ? data.authentication.code : 'N/A'}"></td>　-->
             <td th:text="${data.name}"></td>
             <td>
                 <a th:href="@{/employee/detail/{id}/(id=${data.id})}">詳細を見る</a>

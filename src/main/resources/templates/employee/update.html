@@ -10,8 +10,8 @@
     <nav id="global_navi">
         <div class="left">
             <h2>日報管理システム</h2>
-            <a href="/employee/list">従業員管理</a>
-            <a href="">日報管理</a>
+            <a th:href="@{/employee/list}">従業員管理</a>
+            <a th:href="@{/}">日報管理</a>
         </div>
         <div class="right">
             <div><span th:text="${employeeName}">Employee Name</span>さん</div>
@@ -24,11 +24,9 @@
     <p>(パスワードは変更する場合のみ入力してください)</p>
 
     <form method="post" th:action="@{/employee/update/{id}/(id=${employee.id})}" th:object="${employee}">
-        <input type="hidden" id="id" name="id" th:value="*{id}">
         <label for="code">社員番号(変更できません)</label>
         <br>
-        <input type="hidden" th:field="*{authentication.code}" th:errorclass="err" readonly>
-        <span th:errors="*{authentication.code}" class="err"></span>
+        <input type="hidden" id="authentication.code" name="authentication.code" th:text="*{authentication.code}" th:field="*{authentication.code}" >
         <br>
 
         <label for="name">氏名</label>

@@ -9,8 +9,8 @@
     <nav id="global_navi">
         <div class="left">
             <h2>日報管理システム</h2>
-            <a href="/employee/list">従業員管理</a>
-            <a href="">日報管理</a>
+            <a th:href="@{/employee/list}">従業員管理</a>
+            <a th:href="@{/}">日報管理</a>
         </div>
         <div class="right">
             <div><span th:text="${employeeName}">Employee Name</span>さん</div>
