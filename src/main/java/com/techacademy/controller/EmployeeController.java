@@ -94,10 +94,9 @@ public class EmployeeController {
             return getRegister(userDetail, employee);
         }
 
-
         authentication = service.saveAuthentication(authentication); //Authenticationを保存
         employee.setAuthentication(authentication);
-//        authentication.setPassword(null); // 暗号化したパスワード
+        authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));// 暗号化したパスワード
         service.saveEmployee(employee); //Employeeを保存
 
         // 一覧画面にリダイレクト
@@ -107,7 +106,7 @@ public class EmployeeController {
 
     /** Employee更新画面を表示 */
     @GetMapping("/update/{id}")
-    public String getEmployee2(@AuthenticationPrincipal UserDetail userDetail, @PathVariable("id") Integer id, Model model) {
+    public String getEmployeeUpdate(@AuthenticationPrincipal UserDetail userDetail, @PathVariable("id") Integer id, Model model) {
         // ログインユーザー名をModelに登録
         Employee employee = userDetail.getUser();
         model.addAttribute("employeeName", employee.getName());
@@ -120,34 +119,34 @@ public class EmployeeController {
 
     /** Employee更新処理 */
     @PostMapping("/update/{id}")
-    public String postEmployee(@PathVariable("id") Integer id, @Validated Employee employee, BindingResult res, Model model) {
-//        if(res.hasErrors()) {
-//            //エラーあり
-//            return getEmployee2(id, model);
-//        }
-        // Employee更新
+    public String postEmployeeUpdate(@AuthenticationPrincipal UserDetail userDetail, @PathVariable("id") Integer id, @Validated Employee employee, BindingResult res, Model model) {
+        if(res.hasErrors()) {
+            //エラーあり
+            return getEmployeeUpdate(userDetail, id, model);
+        }
+        // Employee更新情報のセット
         employee.setUpdatedAt(LocalDateTime.now());
         employee.setDeleteFlag(0);
 
-//        Employee dbemployee = service.getEmployee(id);
-//        Authentication dbauthentication = dbemployee.getAuthentication();
-
+        // フォームから新しい認証情報を取得
         Authentication authentication = employee.getAuthentication();
-
-//        if(authentication.getPassword().equals("")) {
-//            authentication.setPassword(dbauthentication.getPassword());
-//        }
+        // 新しいパスワードが入力されているかチェック
+        if(authentication.getPassword().equals("")) {
+            // 新しいパスワードが入力されていない場合、現在のパスワードをハッシュ化しないで保存
+            Employee dbemployee = service.getEmployee(id);
+            authentication.setPassword(dbemployee.getAuthentication().getPassword());
+        } else {
+            // 新しいパスワードが入力されている場合、ハッシュ化して保存
+            authentication.setPassword(passwordEncoder.encode(authentication.getPassword()));
+        }
 
         authentication = service.saveAuthentication(authentication);
         employee.setAuthentication(authentication);
-//        authentication.setPassword(null); // 暗号化したパスワード
-        service.saveEmployee(employee); //Employeeを保存(Codeの重複許可)
+        service.saveEmployee(employee); //Employeeを保存
 
         // 一覧画面にリダイレクト
         return "redirect:/employee/list";
     }
-
-
 
 
     /** Employee削除処理 */

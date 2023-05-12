@@ -7,19 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/employee/register.css}">
 </head>
 <body>
-    <nav id="global_navi">
-        <div class="left">
-            <h2>日報管理システム</h2>
-            <a th:href="@{/employee/list}">従業員管理</a>
-            <a th:href="@{/}">日報管理</a>
-        </div>
-        <div class="right">
-            <div><span th:text="${employeeName}">Employee Name</span>さん</div>
-            <form method="post" th:action="@{/logout}" id="logout-form">
-            <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
-            </form>
-        </div>
-    </nav>
+    <div th:replace="navi"></div>
     <h1>従業員 新規登録ページ</h1>
     <form method="post" th:action="@{/employee/register}" th:object="${employee}">
         <label for="code">社員番号</label>
@@ -37,7 +25,7 @@
 
         <label for="password">パスワード</label>
         <br>
-        <input type="text" th:field="*{authentication.password}" th:errorclass="err">
+        <input type="password" th:field="*{authentication.password}" th:errorclass="err">
         <span th:errors="*{authentication.password}" class="err"></span>
         <br>
 

@@ -3,8 +3,6 @@ package com.techacademy.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +15,6 @@ import com.techacademy.repository.EmployeeRepository;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final AuthenticationRepository authenticationRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     public EmployeeService(EmployeeRepository repository, AuthenticationRepository authenticationRepository) {
         this.employeeRepository = repository;
@@ -43,7 +38,7 @@ public class EmployeeService {
     public Employee saveEmployee(Employee employee) {
         Authentication auth = employee.getAuthentication(); // EmployeeインスタンスからAuthenticationインスタンスを取得
         auth.setEmployee(employee); // AuthenticationインスタンスにEmployeeインスタンスを設定
-        auth.setPassword(passwordEncoder.encode(employee.getAuthentication().getPassword()));  // Authenticationインスタンスのパスワードをハッシュ化
+        auth.setPassword(employee.getAuthentication().getPassword());  // Authenticationインスタンスのパスワード
 
         return employeeRepository.save(employee);
     }
@@ -65,9 +60,5 @@ public class EmployeeService {
         Optional<Authentication> authentication = authenticationRepository.findByCode(code);
         return authentication.isPresent();
     }
-
-//    public Employee findByCodeAndPassword(String code, String password) {
-//        return employeeRepository.findByCodeAndPassword(code, password);
-//    }
 
 }
