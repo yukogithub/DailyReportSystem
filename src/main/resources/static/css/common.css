@@ -1,26 +1,6 @@
 @charset "UTF-8";
 
-a {
-  text-decoration: none;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-th, td {
-    border: solid 1px black;
-    padding: 10px 20px;
-}
-
-.list {
-    border-collapse: collapse;
-}
-
-.list tr:nth-child(even){
-    background-color:#f2f2f2;
-}
-
+/* ナビゲーション用CSS */
 #global_navi a:visited, #global_navi a:hover{
     color: white;
 }
@@ -60,7 +40,57 @@ th, td {
 a.logout-link {
   color: white;
 }
+/* ナビゲーション用CSSここまで */
 
+
+/* ここからその他CSS */
+/* リンクの下線を削除する */
+a {
+  text-decoration: none;
+}
+
+/* 隣接するボーダーラインを重ねあわせて表示 */
+table {
+    border-collapse: collapse;
+}
+
+/* 表に1pxの黒い実線を設定、上下のpaddingを10px、左右のpaddingを20px */
+th, td {
+    border: solid 1px black;
+    padding: 10px 20px;
+}
+
+/* リスト内の偶数行の背景色を薄灰色に設定する */
+.list {
+    border-collapse: collapse;
+}
+.list tr:nth-child(even){
+    background-color:#f2f2f2;
+}
+
+/* h1の下の余白を0に設定する */
+h1 {
+  margin-bottom: 0;
+}
+
+/* 段落の上の余白を0に設定する */
+p {
+  margin-top: 0;
+}
+
+/* フォームラベルの設定 */
+label {
+    display: inline-block;
+    width: 8em;
+    line-height: 150%;
+}
+
+/* フォーム入力時に赤字でエラーを返す */
+.err {
+    color: red;
+}
+
+/* 日報詳細ページの折り返し */
 pre {
     font-family: "Hiragino Kaku Gothic Pro",Meiryo,"MS PGothic",Helvetica,Arial,sans-serif;
     white-space: pre-wrap;

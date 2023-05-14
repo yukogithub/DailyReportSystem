@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>日報管理システム</title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/employee/update.css}">
 </head>
 <body>
     <div th:replace="navi"></div>
@@ -12,7 +11,7 @@
     <p>(パスワードは変更する場合のみ入力してください)</p>
 
     <form method="post" th:action="@{/employee/update/{id}/(id=${employee.id})}" th:object="${employee}">
-        <label for="code">社員番号(変更できません)</label>
+        <label for="code">社員番号</label>
         <br>
         <input type="hidden" id="authentication.code" name="authentication.code" th:text="*{authentication.code}" th:field="*{authentication.code}" >
         <br>
